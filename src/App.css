@@ -1,0 +1,258 @@
+.app-shell {
+  display: flex;
+  min-height: 100svh;
+}
+
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.brand {
+  font-size: 20px;
+  padding: 0 8px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-size: 14px;
+}
+
+.category:hover {
+  background: var(--accent-bg);
+}
+
+.category.active {
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.category .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.category.active .dot {
+  background: var(--accent);
+}
+
+.category-label {
+  flex: 1;
+}
+
+.category-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.upload-new {
+  margin-top: auto;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 14px;
+}
+
+.upload-new:hover:not(:disabled) {
+  border-color: var(--accent-border);
+}
+
+.main-pane {
+  flex: 1;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.main-pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.main-pane-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-bar {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 14px;
+  min-width: 220px;
+}
+
+.export-csv {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.export-csv:hover:not(:disabled) {
+  background: var(--accent);
+  color: white;
+}
+
+.follow-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.follow-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.follow-list-item:last-child {
+  border-bottom: none;
+}
+
+.follow-list-item:hover {
+  background: var(--accent-bg);
+}
+
+.username {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.profile-link {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.profile-link:hover {
+  color: var(--accent);
+}
+
+.empty-state {
+  color: var(--text);
+  font-size: 14px;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.error-banner {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.upload-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 48px 32px;
+}
+
+.upload-zone.dragging {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.upload-zone p {
+  max-width: 480px;
+  margin: 0;
+}
+
+.privacy-note {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.upload-zone button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-size: 14px;
+}
+
+.upload-zone button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.fatal-error {
+  padding: 48px;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .main-pane {
+    padding: 24px 20px;
+  }
+}

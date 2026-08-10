@@ -1,0 +1,25 @@
+{
+  "relationships_followers": [
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/someuser", "value": "someuser", "timestamp": 1699000400 }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/frank_music", "value": "frank_music", "timestamp": 1699000500 }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/gigi_dup", "value": "gigi_dup", "timestamp": 1699000600 }
+      ]
+    }
+  ]
+}

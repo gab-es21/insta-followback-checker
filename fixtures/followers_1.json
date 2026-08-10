@@ -1,0 +1,32 @@
+{
+  "relationships_followers": [
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/alice_wonder", "value": "alice_wonder", "timestamp": 1699000000 }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/bob_builder", "value": "bob_builder", "timestamp": 1699000100 }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/erin_travels", "value": "erin_travels", "timestamp": 1699000200 }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [],
+      "string_list_data": [
+        { "href": "https://www.instagram.com/gigi_dup", "value": "gigi_dup", "timestamp": 1699000300 }
+      ]
+    }
+  ]
+}
