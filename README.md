@@ -17,7 +17,7 @@ Unlike tools that scrape Instagram's private API through a logged-in session (ri
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22+ (the test suite's jsdom/undici dependency needs a newer `structuredClone` webidl API than Node 20 ships)
 - npm
 
 ### Installation
