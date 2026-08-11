@@ -35,3 +35,5 @@ desktop.ini
 # Caches
 .cache
 *.cache
+
+data_sample

@@ -10,7 +10,9 @@ function flattenEntries(entries: RelationshipEntry[]): Account[] {
   const accounts: Account[] = [];
   for (const entry of entries) {
     for (const item of entry.string_list_data ?? []) {
-      accounts.push({ username: item.value, href: item.href, timestamp: item.timestamp });
+      const username = item.value || entry.title;
+      if (!username) continue;
+      accounts.push({ username, href: item.href, timestamp: item.timestamp });
     }
   }
   return accounts;
