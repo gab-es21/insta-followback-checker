@@ -1,5 +1,7 @@
 # FollowCheck
 
+**[Open FollowCheck →](https://gab-es21.github.io/insta-followback-checker/)** — runs entirely in your browser, nothing to install.
+
 Find out who you follow on Instagram that doesn't follow you back — without giving any app your login, and without anything ever leaving your browser.
 
 Unlike tools that scrape Instagram's private API through a logged-in session (risking your account getting flagged), FollowCheck works entirely from Instagram's own official data export. You download your data from Instagram, drop it into this app, and everything is parsed and compared locally in your browser. There is no backend, no login, and no network request involving your data at any point.

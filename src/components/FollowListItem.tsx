@@ -1,8 +1,19 @@
+import { ExternalLinkIcon } from './icons';
 import type { Account } from '../types/instagram';
+
+const AVATAR_PALETTE = ['#f77737', '#e1306c', '#833ab4', '#405de6', '#3897f0', '#22c55e', '#f5b942'];
+
+function avatarColor(username: string): string {
+  const code = username.toLowerCase().charCodeAt(0) || 0;
+  return AVATAR_PALETTE[code % AVATAR_PALETTE.length];
+}
 
 export function FollowListItem({ account }: { account: Account }) {
   return (
     <li className="follow-list-item">
+      <span className="avatar-placeholder" aria-hidden="true" style={{ background: avatarColor(account.username) }}>
+        {account.username.charAt(0).toUpperCase()}
+      </span>
       <span className="username">{account.username}</span>
       <a
         className="profile-link"
@@ -11,7 +22,7 @@ export function FollowListItem({ account }: { account: Account }) {
         rel="noreferrer noopener"
         aria-label={`Open @${account.username} on Instagram`}
       >
-        ↗
+        <ExternalLinkIcon aria-hidden="true" />
       </a>
     </li>
   );

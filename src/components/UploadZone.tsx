@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import type { DragEvent } from 'react';
 import { useAppState } from '../state/AppContext';
+import { UploadCloudIcon } from './icons';
 
 export function UploadZone() {
   const { state, loadFiles } = useAppState();
@@ -33,11 +34,9 @@ export function UploadZone() {
         <p>Reading your export…</p>
       ) : (
         <>
-          <p>
-            Drop your Instagram data export here — the full ZIP, or the loose <code>following.json</code> and{' '}
-            <code>followers_*.json</code> files from <code>connections/followers_and_following/</code>.
-          </p>
-          <p className="privacy-note">Everything is processed in your browser. Nothing is ever uploaded anywhere.</p>
+          <UploadCloudIcon aria-hidden="true" className="upload-icon" />
+          <h2>Upload your export</h2>
+          <p className="upload-hint">Drag and drop your files here, or choose them manually.</p>
           <button type="button" onClick={() => inputRef.current?.click()}>
             Choose files
           </button>

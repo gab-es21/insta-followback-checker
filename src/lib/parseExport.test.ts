@@ -19,6 +19,36 @@ describe('parseFollowingJson', () => {
     expect(accounts.map((a) => a.username)).toContain('SomeUser');
   });
 
+  it('reads the username from the entry title when string_list_data has no value (real export shape)', () => {
+    const raw = JSON.stringify({
+      relationships_following: [
+        {
+          title: 'real_export_user',
+          string_list_data: [{ href: 'https://www.instagram.com/real_export_user', timestamp: 1700000000 }],
+        },
+      ],
+    });
+    const accounts = parseFollowingJson(raw, 'following.json');
+    expect(accounts).toEqual([
+      { username: 'real_export_user', href: 'https://www.instagram.com/real_export_user', timestamp: 1700000000 },
+    ]);
+  });
+
+  it('prefers string_list_data.value over the entry title when both are present', () => {
+    const raw = JSON.stringify({
+      relationships_following: [
+        {
+          title: 'ignored_title',
+          string_list_data: [
+            { href: 'https://www.instagram.com/preferred', value: 'preferred', timestamp: 1700000000 },
+          ],
+        },
+      ],
+    });
+    const accounts = parseFollowingJson(raw, 'following.json');
+    expect(accounts.map((a) => a.username)).toEqual(['preferred']);
+  });
+
   it('throws ParseError for an unrecognized shape', () => {
     expect(() => parseFollowingJson(fixture('malformed.json'), 'malformed.json')).toThrow(ParseError);
   });

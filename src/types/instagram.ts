@@ -1,6 +1,11 @@
 export interface StringListEntry {
   href: string;
-  value: string;
+  /**
+   * Present on followers_*.json entries. Absent on relationships_following
+   * entries in real exports — there the username is on the parent
+   * RelationshipEntry's `title` instead. See flattenEntries in parseExport.ts.
+   */
+  value?: string;
   timestamp: number;
 }
 

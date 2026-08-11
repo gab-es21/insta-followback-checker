@@ -43,4 +43,11 @@ describe('Sidebar', () => {
 
     expect(screen.getByRole('button', { name: 'Upload New' })).toBeDisabled();
   });
+
+  it('always exposes the privacy note and a "How to export your data" entry point', () => {
+    renderWithProvider(<Sidebar />);
+
+    expect(screen.getByText(/Everything is processed in your browser/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /How to export your data/ })).toBeInTheDocument();
+  });
 });

@@ -1,38 +1,38 @@
 {
   "relationships_following": [
     {
-      "title": "",
+      "title": "alice_wonder",
       "media_list_data": [],
       "string_list_data": [
-        { "href": "https://www.instagram.com/alice_wonder", "value": "alice_wonder", "timestamp": 1700000000 }
+        { "href": "https://www.instagram.com/alice_wonder", "timestamp": 1700000000 }
       ]
     },
     {
-      "title": "",
+      "title": "bob_builder",
       "media_list_data": [],
       "string_list_data": [
-        { "href": "https://www.instagram.com/bob_builder", "value": "bob_builder", "timestamp": 1700000100 }
+        { "href": "https://www.instagram.com/bob_builder", "timestamp": 1700000100 }
       ]
     },
     {
-      "title": "",
+      "title": "charlie_dev",
       "media_list_data": [],
       "string_list_data": [
-        { "href": "https://www.instagram.com/charlie_dev", "value": "charlie_dev", "timestamp": 1700000200 }
+        { "href": "https://www.instagram.com/charlie_dev", "timestamp": 1700000200 }
       ]
     },
     {
-      "title": "",
+      "title": "dana_writes",
       "media_list_data": [],
       "string_list_data": [
-        { "href": "https://www.instagram.com/dana_writes", "value": "dana_writes", "timestamp": 1700000300 }
+        { "href": "https://www.instagram.com/dana_writes", "timestamp": 1700000300 }
       ]
     },
     {
-      "title": "",
+      "title": "SomeUser",
       "media_list_data": [],
       "string_list_data": [
-        { "href": "https://www.instagram.com/SomeUser", "value": "SomeUser", "timestamp": 1700000400 }
+        { "href": "https://www.instagram.com/SomeUser", "timestamp": 1700000400 }
       ]
     }
   ]

@@ -12,6 +12,7 @@ interface State {
   errorMessage: string | null;
   activeCategory: Category;
   searchTerm: string;
+  showHowTo: boolean;
 }
 
 type Action =
@@ -20,7 +21,9 @@ type Action =
   | { type: 'LOAD_ERROR'; message: string }
   | { type: 'RESET' }
   | { type: 'SET_CATEGORY'; category: Category }
-  | { type: 'SET_SEARCH'; term: string };
+  | { type: 'SET_SEARCH'; term: string }
+  | { type: 'SHOW_HOWTO' }
+  | { type: 'HIDE_HOWTO' };
 
 const initialState: State = {
   status: 'empty',
@@ -28,12 +31,13 @@ const initialState: State = {
   errorMessage: null,
   activeCategory: 'not-following-back',
   searchTerm: '',
+  showHowTo: false,
 };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'LOAD_START':
-      return { ...state, status: 'loading', errorMessage: null };
+      return { ...state, status: 'loading', errorMessage: null, showHowTo: false };
     case 'LOAD_SUCCESS':
       return { ...state, status: 'loaded', dataset: action.dataset, errorMessage: null, searchTerm: '' };
     case 'LOAD_ERROR':
@@ -41,9 +45,13 @@ function reducer(state: State, action: Action): State {
     case 'RESET':
       return initialState;
     case 'SET_CATEGORY':
-      return { ...state, activeCategory: action.category, searchTerm: '' };
+      return { ...state, activeCategory: action.category, searchTerm: '', showHowTo: false };
     case 'SET_SEARCH':
       return { ...state, searchTerm: action.term };
+    case 'SHOW_HOWTO':
+      return { ...state, showHowTo: true };
+    case 'HIDE_HOWTO':
+      return { ...state, showHowTo: false };
     default:
       return state;
   }
@@ -55,6 +63,8 @@ interface AppContextValue {
   setActiveCategory: (category: Category) => void;
   setSearchTerm: (term: string) => void;
   reset: () => void;
+  openHowTo: () => void;
+  closeHowTo: () => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -85,9 +95,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'RESET' });
   }, []);
 
+  const openHowTo = useCallback(() => {
+    dispatch({ type: 'SHOW_HOWTO' });
+  }, []);
+
+  const closeHowTo = useCallback(() => {
+    dispatch({ type: 'HIDE_HOWTO' });
+  }, []);
+
   const value = useMemo(
-    () => ({ state, loadFiles, setActiveCategory, setSearchTerm, reset }),
-    [state, loadFiles, setActiveCategory, setSearchTerm, reset],
+    () => ({ state, loadFiles, setActiveCategory, setSearchTerm, reset, openHowTo, closeHowTo }),
+    [state, loadFiles, setActiveCategory, setSearchTerm, reset, openHowTo, closeHowTo],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

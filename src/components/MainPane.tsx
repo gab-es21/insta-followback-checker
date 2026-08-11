@@ -2,6 +2,7 @@ import { ErrorBanner } from './ErrorBanner';
 import { ExportCsvButton } from './ExportCsvButton';
 import { CATEGORY_LABELS } from '../lib/categories';
 import { FollowList } from './FollowList';
+import { HowToGuide } from './HowToGuide';
 import { SearchBar } from './SearchBar';
 import { UploadZone } from './UploadZone';
 import { filterAccounts } from '../lib/search';
@@ -15,8 +16,16 @@ function accountsForCategory(dataset: { mutual: Account[]; notFollowingBack: Acc
 }
 
 export function MainPane() {
-  const { state } = useAppState();
-  const { status, dataset, errorMessage, activeCategory, searchTerm } = state;
+  const { state, closeHowTo } = useAppState();
+  const { status, dataset, errorMessage, activeCategory, searchTerm, showHowTo } = state;
+
+  if (showHowTo) {
+    return (
+      <main className="main-pane">
+        <HowToGuide onBack={closeHowTo} />
+      </main>
+    );
+  }
 
   if (status !== 'loaded' || !dataset) {
     return (
