@@ -5,8 +5,15 @@ import { InfoIcon, LockIcon, UploadCloudIcon } from './icons';
 import type { Category } from '../types/instagram';
 
 export function Sidebar() {
-  const { state, setActiveCategory, setTriageView, reset, openHowTo, setRememberSession } = useAppState();
+  const { state, setActiveCategory, setTriageView, reset, eraseData, openHowTo, setRememberSession } = useAppState();
   const { dataset, activeCategory, status, triage, triageView, rememberSession } = state;
+  const hasNothingToErase = status === 'empty' && Object.keys(triage).length === 0;
+
+  const handleEraseData = () => {
+    if (window.confirm("Erase the loaded export and all kept/unfollowed marks? This can't be undone.")) {
+      eraseData();
+    }
+  };
 
   return (
     <aside className="sidebar">
@@ -117,6 +124,9 @@ export function Sidebar() {
 
         <button type="button" className="upload-new" onClick={reset} disabled={status === 'empty'}>
           Reset
+        </button>
+        <button type="button" className="erase-data" onClick={handleEraseData} disabled={hasNothingToErase}>
+          Erase Data
         </button>
       </div>
     </aside>
