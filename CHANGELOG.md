@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Virtualized the account list (`@tanstack/react-virtual`) so it only renders visible rows — verified smooth scrolling through a synthetic 3,000-account list with just 20-30 DOM rows mounted at a time.
 - A keep/unfollow triage workflow on each account row: ✓ marks an account as kept, ✗ marks it as unfollowed (i.e. you handled it manually on Instagram — this app never unfollows anything itself). Each category gets `Kept`/`Unfollowed` sub-views in the sidebar with live counts, so you can review a batch, close the tab, and pick up where you left off instead of re-scrolling past decisions you've already made.
 - An opt-in "Save my export and choices on this browser" toggle, off by default. When on, both the parsed export and your triage marks survive a refresh (no re-upload needed); when off, nothing is written to `localStorage` and anything previously stored is actively cleared the moment you turn it off — not just left stale.
+- An "Erase Data" button in the sidebar, below Reset: clears the loaded export *and* every kept/unfollowed mark (in memory and in storage), behind a confirmation prompt. Distinct from Reset, which deliberately keeps triage marks so you can re-upload a fresher export without losing your progress.
 
 ### Changed
 

@@ -50,7 +50,8 @@ Then open the printed local URL in your browser.
 - Click the ✓ or ✗ on a row to mark that account as kept or unfollowed — a `Kept`/`Unfollowed` sub-view appears under that category in the sidebar; the category itself always shows what's still unreviewed
 - Click **Export CSV** to download the currently visible (filtered) list
 - Turn on **"Save my export and choices on this browser"** in the sidebar if you want this to survive a refresh — it's off by default, so nothing is kept unless you opt in
-- Click **Reset** in the sidebar to load a different export
+- Click **Reset** in the sidebar to load a different export — this keeps your kept/unfollowed marks, since the point is usually to load a fresher export without losing your progress
+- Click **Erase Data** to wipe the loaded export *and* every kept/unfollowed mark, in memory and in storage — this is the one that actually starts you over from nothing (confirmation required, can't be undone)
 - Click **How to export your data** in the sidebar for a walkthrough of requesting your export from Instagram
 
 ## File Structure
@@ -86,3 +87,7 @@ npm run test
 ```
 
 Tests cover the export parser (both known `followers_*.json` shapes, malformed input, multi-file merging/de-duping), the categorization diff (including case-insensitive username matching), CSV export, the triage/persistence logic (including that turning "remember" off actively clears storage, not just stops saving), and the UI components/flows via React Testing Library.
+
+## Contributing
+
+Bug reports, ideas, and PRs are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for the branching model, coding conventions, and how to get set up locally.
