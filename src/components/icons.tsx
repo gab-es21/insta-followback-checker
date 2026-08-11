@@ -84,3 +84,20 @@ export function UploadCloudIcon(props: SVGProps<SVGSVGElement>) {
     </Icon>
   );
 }
+
+export function CheckIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <polyline points="20 6 9 17 4 12" />
+    </Icon>
+  );
+}
+
+export function XIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </Icon>
+  );
+}

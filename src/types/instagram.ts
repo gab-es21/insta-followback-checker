@@ -40,3 +40,12 @@ export interface ParsedDataset {
   notFollowingBack: Account[];
   fans: Account[];
 }
+
+/** A user's manual decision on an account, persisted locally so it survives across sessions. */
+export type TriageStatus = 'kept' | 'unfollowed';
+
+/** Keyed by normalizeUsername(account.username). */
+export type TriageMap = Record<string, TriageStatus>;
+
+/** Which slice of a category's accounts is currently shown: the to-do queue, or a decision log. */
+export type TriageView = 'pending' | TriageStatus;

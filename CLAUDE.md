@@ -14,8 +14,8 @@ This was a deliberate design decision, not a limitation to "fix" later. During p
 
 - Vite + React 19 + TypeScript, npm (not pnpm/yarn).
 - oxlint (lint, ships with the current Vite react-ts template in place of eslint) + `tsc` (types) + Vitest + React Testing Library (tests).
-- JSZip for in-browser ZIP extraction.
-- No backend, no database, no server-rendering — static bundle only.
+- JSZip for in-browser ZIP extraction. `@tanstack/react-virtual` virtualizes the account list (only visible rows mount — verified against a synthetic 3,000-account list).
+- No backend, no database, no server-rendering — static bundle only. Deployed to GitHub Pages (`.github/workflows/deploy.yml`, triggers on push to `main`).
 
 ## Commands
 
@@ -30,13 +30,13 @@ This was a deliberate design decision, not a limitation to "fix" later. During p
 
 ## v1 scope
 
-**Built:** upload (ZIP or loose JSON files) → parse → categorize into **Mutual** / **Not Following Back** / **Fans** → search within the active category → export the currently visible (filtered) rows to CSV.
+**Built:** upload (ZIP or loose JSON files) → parse → categorize into **Mutual** / **Not Following Back** / **Fans** → search within the active category → export the currently visible (filtered) rows to CSV → an opt-in keep/unfollow triage workflow (per-account ✓/✗, `Kept`/`Unfollowed` sidebar sub-views per category, off-by-default local persistence of both the triage marks and the parsed export across sessions) → an in-app "How to export your data" guide.
 
-**Explicitly deferred to a future v2 — do not add these without discussing scope first, they were cut on purpose:**
-- History tracking across visits (e.g. IndexedDB snapshots showing what changed since the last upload)
+The triage workflow and cross-session persistence were originally deferred to v2 (see git history on `CLAUDE.md` before 2026-08-11) but were discussed and pulled into v1, scoped down to stay consistent with the no-backend/local-only design: everything lives in `localStorage`, off by default, and actively cleared (not just stopped) the moment the user turns it off.
+
+**Still deferred to a future v2 — do not add these without discussing scope first:**
 - Follow-date sorting/insights in the UI (the export's `timestamp` is parsed and included in CSV export, but intentionally not surfaced as a sort/insight in the list view yet)
-- A keep/unfollow triage workflow (mark accounts, persisted checklist)
-- Any live Instagram API integration or scraping, including for avatars — the export has no profile pictures, so don't add an "avatar" feature that requires fetching from Instagram
+- Any live Instagram API integration or scraping, including for avatars — the export has no profile pictures, so don't add an "avatar" feature that requires fetching from Instagram. `FollowListItem` uses a locally-computed letter/color placeholder instead — that's fine, it's not a network call.
 
 ## Things to know before changing behavior
 
@@ -47,6 +47,7 @@ This was a deliberate design decision, not a limitation to "fix" later. During p
 - **CSV export is scoped to the visible list, not the whole category.** `ExportCsvButton` receives the post-search-filtered accounts as a prop, by design — a user searching "john" and clicking export should get only matching rows, not the entire category.
 - **Multi-file followers merging de-dupes by normalized username, first-seen-wins.** Both `mergeFollowersFiles` (across `followers_1.json`, `followers_2.json`, etc.) and `computeCategories` (within a single list) use this same pattern via a `Map` — keep it consistent if either changes.
 - **Parsing errors must never throw raw.** Anything that can fail (`JSON.parse`, unexpected shape, missing file) is caught and rewrapped as a `ParseError` (`src/lib/errors.ts`) with a message naming the offending filename, surfaced via `ErrorBanner` — never let a parse failure become an unhandled rejection or blank screen. `ErrorBoundary` in `main.tsx` is a last-resort safety net for anything else.
+- **"Remember" (`rememberSession`) must always mean really off when off, not just "stop saving."** It gates three `localStorage` keys (`followcheck:remember-session`, `followcheck:triage`, `followcheck:dataset`) via effects in `src/state/AppContext.tsx`. Turning it off must synchronously clear the in-memory `triage` map too (`SET_REMEMBER_SESSION` reducer case), not just stop persisting — otherwise old marks from earlier in the same tab session (or restored at mount) silently resurface after a `RESET` + re-upload, since `RESET` intentionally preserves `triage` across a reset (that's what makes remembering useful) regardless of the current toggle state. This was a real bug once; `App.test.tsx` has a regression test for it — don't remove it.
 - **MIT-licensed, with CI enforced.** `LICENSE` and `.github/workflows/ci.yml` exist per `project-rules` — don't remove either without being asked.
 - **`tsconfig.app.json` has `erasableSyntaxOnly: true` and `verbatimModuleSyntax: true`.** No TS enums with values, no constructor parameter-property shorthand (`constructor(public x: T)`), no namespaces with runtime code — and every type-only import must use `import type { ... }`. This is why `ParseError` assigns `cause` in the constructor body instead of using parameter properties.
 

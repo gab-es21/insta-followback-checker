@@ -13,6 +13,10 @@ Unlike tools that scrape Instagram's private API through a logged-in session (ri
 - Search within the active category
 - Export the currently visible list to CSV
 - Click through to any profile on Instagram
+- Mark accounts as **kept** or **unfollowed** as you go through them — each category gets `Kept`/`Unfollowed` sub-views in the sidebar with live counts, so you can review a batch and pick up where you left off later (useful since Instagram rate-limits how many accounts you can unfollow per day)
+- An in-app **"How to export your data"** guide walking through requesting the official export from Instagram
+- Optional, off-by-default "remember" toggle to keep your export and triage marks on this browser across sessions — everything stays local either way
+- Handles large exports smoothly — the account list only renders visible rows, verified against a synthetic 3,000-account list
 - 100% client-side — your follower/following data is never uploaded anywhere
 
 ## Getting Started
@@ -43,14 +47,17 @@ Then open the printed local URL in your browser.
 
 - Once your export is loaded, use the sidebar to switch between **Not Following Back**, **Mutual**, and **Fans**
 - Use the search bar to filter the current category by username
+- Click the ✓ or ✗ on a row to mark that account as kept or unfollowed — a `Kept`/`Unfollowed` sub-view appears under that category in the sidebar; the category itself always shows what's still unreviewed
 - Click **Export CSV** to download the currently visible (filtered) list
-- Click **Upload New** in the sidebar to load a different export
+- Turn on **"Save my export and choices on this browser"** in the sidebar if you want this to survive a refresh — it's off by default, so nothing is kept unless you opt in
+- Click **Reset** in the sidebar to load a different export
+- Click **How to export your data** in the sidebar for a walkthrough of requesting your export from Instagram
 
 ## File Structure
 
 ```
 src/
-  types/instagram.ts   # shared types for the Instagram export shapes and parsed accounts
+  types/instagram.ts   # shared types for the Instagram export shapes, parsed accounts, and triage
   lib/
     parseExport.ts      # ZIP/JSON parsing of the Instagram export
     diff.ts              # mutual / not-following-back / fans categorization
@@ -58,13 +65,17 @@ src/
     search.ts            # in-category username search
     csv.ts                # CSV serialization + download
     normalizeUsername.ts # case-insensitive comparison key
+    categories.ts         # category display labels/order
+    triage.ts             # kept/unfollowed marks: view filtering, counts, localStorage
+    persistence.ts        # remember-session preference + persisted dataset (localStorage)
     errors.ts             # ParseError
   state/
-    AppContext.tsx       # app state (loaded dataset, active category, search term)
+    AppContext.tsx       # app state (dataset, active category, search term, triage, how-to)
   components/
     Sidebar.tsx, MainPane.tsx, UploadZone.tsx, SearchBar.tsx,
     FollowList.tsx, FollowListItem.tsx, ExportCsvButton.tsx,
-    EmptyState.tsx, ErrorBanner.tsx, ErrorBoundary.tsx
+    HowToGuide.tsx, EmptyState.tsx, ErrorBanner.tsx, ErrorBoundary.tsx,
+    icons.tsx             # small inline SVG icon set
 fixtures/               # sample export JSON used by the test suite
 ```
 
@@ -74,4 +85,4 @@ fixtures/               # sample export JSON used by the test suite
 npm run test
 ```
 
-Unit tests cover the export parser (both known `followers_*.json` shapes, malformed input, multi-file merging/de-duping), the categorization diff (including case-insensitive username matching), and CSV export.
+Tests cover the export parser (both known `followers_*.json` shapes, malformed input, multi-file merging/de-duping), the categorization diff (including case-insensitive username matching), CSV export, the triage/persistence logic (including that turning "remember" off actively clears storage, not just stops saving), and the UI components/flows via React Testing Library.
