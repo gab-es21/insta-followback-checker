@@ -1,7 +1,11 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Sidebar } from './Sidebar';
 import { Loader, Marker, fixtureFile, renderWithProvider } from '../test-utils';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe('Sidebar', () => {
   it('renders every category with a placeholder count before data is loaded', () => {
@@ -82,5 +86,52 @@ describe('Sidebar', () => {
     fireEvent.click(keptItem);
     expect(keptItem).toHaveAttribute('aria-current', 'true');
     expect(notFollowingBack).toHaveAttribute('aria-current', 'false');
+  });
+
+  it('disables "Erase Data" until there is a loaded export or a triage mark to erase', () => {
+    renderWithProvider(<Sidebar />);
+    expect(screen.getByRole('button', { name: 'Erase Data' })).toBeDisabled();
+  });
+
+  it('does nothing when "Erase Data" is clicked but the confirmation is declined', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(false);
+    renderWithProvider(
+      <>
+        <Loader
+          files={[fixtureFile('following.json'), fixtureFile('followers_1.json'), fixtureFile('followers_2.json')]}
+        />
+        <Sidebar />
+      </>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'load' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Erase Data' })).toBeEnabled());
+
+    fireEvent.click(screen.getByRole('button', { name: 'Erase Data' }));
+
+    expect(window.confirm).toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Reset' })).toBeEnabled();
+  });
+
+  it('clears the loaded export and all triage marks when "Erase Data" is confirmed', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    renderWithProvider(
+      <>
+        <Loader
+          files={[fixtureFile('following.json'), fixtureFile('followers_1.json'), fixtureFile('followers_2.json')]}
+        />
+        <Marker username="charlie_dev" status="kept" />
+        <Sidebar />
+      </>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'load' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /Not Following Back/ })).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'mark charlie_dev kept' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /Kept/ })).toBeInTheDocument());
+
+    fireEvent.click(screen.getByRole('button', { name: 'Erase Data' }));
+
+    expect(screen.getByRole('button', { name: 'Reset' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Erase Data' })).toBeDisabled();
+    expect(screen.queryByRole('button', { name: /Kept/ })).not.toBeInTheDocument();
   });
 });

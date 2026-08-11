@@ -32,6 +32,7 @@ type Action =
   | { type: 'LOAD_SUCCESS'; dataset: ParsedDataset }
   | { type: 'LOAD_ERROR'; message: string }
   | { type: 'RESET' }
+  | { type: 'ERASE_DATA' }
   | { type: 'SET_CATEGORY'; category: Category }
   | { type: 'SET_SEARCH'; term: string }
   | { type: 'SHOW_HOWTO' }
@@ -72,6 +73,11 @@ function reducer(state: State, action: Action): State {
       // accounts, not the currently loaded export — keep them across a reset
       // instead of wiping to initialState.
       return { ...initialState, triage: state.triage, rememberSession: state.rememberSession };
+    case 'ERASE_DATA':
+      // Unlike RESET, this really does start over: the loaded export AND every
+      // kept/unfollowed mark are gone. The remember preference itself survives
+      // (it's a UI setting, not data), but there's nothing left for it to save.
+      return { ...initialState, rememberSession: state.rememberSession };
     case 'SET_CATEGORY':
       return { ...state, activeCategory: action.category, searchTerm: '', showHowTo: false, triageView: 'pending' };
     case 'SET_SEARCH':
@@ -108,6 +114,7 @@ interface AppContextValue {
   setActiveCategory: (category: Category) => void;
   setSearchTerm: (term: string) => void;
   reset: () => void;
+  eraseData: () => void;
   openHowTo: () => void;
   closeHowTo: () => void;
   setTriageView: (view: TriageView) => void;
@@ -178,6 +185,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'RESET' });
   }, []);
 
+  const eraseData = useCallback(() => {
+    dispatch({ type: 'ERASE_DATA' });
+  }, []);
+
   const openHowTo = useCallback(() => {
     dispatch({ type: 'SHOW_HOWTO' });
   }, []);
@@ -205,6 +216,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setActiveCategory,
       setSearchTerm,
       reset,
+      eraseData,
       openHowTo,
       closeHowTo,
       setTriageView,
@@ -217,6 +229,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setActiveCategory,
       setSearchTerm,
       reset,
+      eraseData,
       openHowTo,
       closeHowTo,
       setTriageView,
