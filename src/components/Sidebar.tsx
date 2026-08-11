@@ -48,7 +48,7 @@ export function Sidebar() {
           How to export your data
         </button>
         <button type="button" className="upload-new" onClick={reset} disabled={status === 'empty'}>
-          Upload New
+          Reset
         </button>
       </div>
     </aside>

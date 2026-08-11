@@ -1,6 +1,6 @@
 .app-shell {
   display: flex;
-  min-height: 100svh;
+  height: 100svh;
 }
 
 .sidebar {
@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: auto;
 }
 
 .brand {
@@ -225,6 +226,8 @@
   flex-direction: column;
   gap: 22px;
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .main-pane-header {
@@ -298,28 +301,31 @@
   transform: scale(0.97);
 }
 
+.follow-list-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
 .follow-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
 .follow-list-item {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 13px 18px;
+  padding: 0 18px;
   border-bottom: 1px solid var(--border-soft);
+  box-sizing: border-box;
   transition: background-color 150ms ease;
-}
-
-.follow-list-item:last-child {
-  border-bottom: none;
 }
 
 .follow-list-item:hover {

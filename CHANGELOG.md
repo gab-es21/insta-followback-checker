@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A persistent sidebar footer with the privacy note and drop-file instructions, always visible regardless of app state.
 - An in-app "How to export your data" guide, opened from the sidebar, walking through requesting the official Instagram data export.
 - Deployed to GitHub Pages so the app is usable directly from a link, with no install required; link added to the top of the README.
+- Virtualized the account list (`@tanstack/react-virtual`) so it only renders visible rows — verified smooth scrolling through a synthetic 3,000-account list with just 20-30 DOM rows mounted at a time.
+
+### Changed
+
+- Renamed the sidebar's "Upload New" button to "Reset" — it clears back to the empty state rather than opening a file picker directly, which "Reset" signals more accurately.
 
 ### Fixed
 

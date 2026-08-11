@@ -25,7 +25,7 @@ describe('Sidebar', () => {
     expect(notFollowingBack).toHaveAttribute('aria-current', 'false');
   });
 
-  it('disables "Upload New" until a dataset is loaded, then resets state on click', async () => {
+  it('disables "Reset" until a dataset is loaded, then resets state on click', async () => {
     renderWithProvider(
       <>
         <Loader
@@ -34,14 +34,14 @@ describe('Sidebar', () => {
         <Sidebar />
       </>,
     );
-    expect(screen.getByRole('button', { name: 'Upload New' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Reset' })).toBeDisabled();
 
     fireEvent.click(screen.getByRole('button', { name: 'load' }));
-    await waitFor(() => expect(screen.getByRole('button', { name: 'Upload New' })).toBeEnabled());
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Reset' })).toBeEnabled());
 
-    fireEvent.click(screen.getByRole('button', { name: 'Upload New' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }));
 
-    expect(screen.getByRole('button', { name: 'Upload New' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Reset' })).toBeDisabled();
   });
 
   it('always exposes the privacy note and a "How to export your data" entry point', () => {
